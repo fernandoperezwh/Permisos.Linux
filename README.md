@@ -14,7 +14,9 @@ docker run -d --name ejercicio_permisos -it ubuntu:20.04
 docker exec -it ejercicio_permisos /bin/bash
 ```
 
-## Ejercicios
+## Ejercicios pagina Codifica
+
+https://www.codifica.me/ejercicio-y-ejemplos-de-permisos-gnu-linux/
 
 ### 1. Creación con root del directorio clase
 
@@ -81,7 +83,7 @@ chmod 770 clase/buzon
 ls -l clase
 ```
 
-![](./assets/01.png)
+![](./assets/codifica/01.png)
 
 
 ### 4. Creación de archivos con el usuario profesor 
@@ -106,7 +108,7 @@ head clase/trabajos/tarea1.txt
 echo escribiendo > clase/trabajos/tarea1.txt
 ```
 
-![](./assets/02.png)
+![](./assets/codifica/02.png)
 
 
 #### 5.2 Para el directorio de examenes
@@ -119,7 +121,7 @@ head clase/examenes/junio.txt
 echo escribiendo > clase/examenes/junio.txt
 ```
 
-![](./assets/03.png)
+![](./assets/codifica/03.png)
 
 #### 5.3 Para el directorio de buzon
 
@@ -130,5 +132,100 @@ echo escribiendo > clase/buzon/enlaces.txt
 touch clase/buzon/ejemplos.txt
 ```
 
-![](./assets/04.png)
+![](./assets/codifica/04.png)
 
+
+# Ejercicios documento PDF
+
+1. Crea los grupos oficina1 y oficina2.
+
+```bash
+addgroup oficina1
+addgroup oficina2
+```
+
+
+2. Crea los usuarios pedro y pablo. Estos usuarios deben pertenecer únicamente al grupo oficina1.
+```bash
+adduser pedro
+adduser pablo
+adduser pedro oficina1
+adduser pablo oficina1
+```
+
+![](./assets/pdf/01.png)
+
+
+3. Crea los usuarios alba y nerea. Estos usuarios deben pertenecer únicamente al
+grupo oficina2.
+
+```bash
+adduser alba
+adduser nerea
+adduser alba oficina2
+adduser nerea oficina2
+```
+
+![](./assets/pdf/02.png)
+
+
+4. Como usuario pedro Crea un fichero con nombre topsecret.txt al que únicamente él tenga acceso, tanto de lectura como de escritura.
+```bash
+cd home/pedro
+echo mensaje_secreto > topsecret.txt
+chmod 600 topsecret.txt
+```
+
+
+5. Crea otro fichero, también como usuario pedro, con nombre ventas_trimestre.txt al que tengan acceso, tanto para leer como para escribir todos los usuarios que pertenezcan al mismo grupo. Comprueba como usuario pablo que puedes modificar el fichero.
+
+```bash
+su alba
+cat > ventas_trimestre.txt
+chmod 660 ventas_trimestre.txt
+```
+
+
+6. Como usuario alba, crea un fichero con nombre empleados.txt al que pueda acceder
+cualquier usuario para leer su contenido, y cualquier usuario del mismo grupo para
+leer o escribir .
+
+```bash
+su alba
+cat > empleados.txt
+chmod 764 empleados.txt
+```
+
+
+7 . Copia el fichero empleados.txt al directorio de trabajo de alumno. Cambia el propietario y el grupo al que pertenece el fichero, ahora debe ser alumno.
+
+```bash
+cp empleados.txt /home/pc4
+chown pc4 empleados.txt
+chgrp pc4 empleados.txt
+```
+
+
+8. Como usuario pablo, copia un programa del directorio /usr/bin al directorio de trabajo con un nombre
+diferente. Por ejemplo kalarm se puede copiar como alarma. Mira los permisos de este programa. Comprueba que se puede ejecutar.
+
+```bash
+cp /usr/bin/zdump /home/pablo/zetadump
+ls –l
+```
+
+9. Cambia los permisos de alarma de tal f orma que sólo lo pueda ejecutar el propietario del archivo.
+```bash
+chmod 744 /home/pablo/zetadump
+```
+
+10.Crea el usuario modesto, perteneciente a oficina2. Dentro de su directorio de trabajo, crea un directorio de nombre compartido_con_todos.
+```bash
+adduser modesto
+adduser modesto oficina2
+su modesto
+cd ../..
+Mkdir compartido_con_todos
+```
+
+![](./assets/pdf/04.png)
